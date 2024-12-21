@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-image: url(./bgoriginal.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .choices img {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .choices img:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <h1 style="color: rgb(238, 8, 8);padding-top: 75px;">Come Let's Play! ROCK PAPER SCISSORS!</h1>
+    <p>Choose your move:</p>
+    <div class="choices">
+        <img src="./rock.avif" alt="Rock" id="rock" onclick="playerChoice('rock')">
+        <img src="./paper.avif" alt="Paper" id="paper" onclick="playerChoice('paper')">
+        <img src="./scissors.avif" alt="Scissors" id="scissors" onclick="playerChoice('scissors')">
+    </div>
+    <h2 id="result"></h2>
+    <h3 style="color:green">Scores:</h3>
+    <p style="color:rgb(18, 32, 235)"><b>Player: <span id="playerScore">0</span></b></p>
+    <p style="color:rgb(180, 83, 70)"><b>Computer: <span id="computerScore">0</span></b></p>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function playerChoice(playerMove) {
+            const moves = ['rock', 'paper', 'scissors'];
+            const computerMove = moves[Math.floor(Math.random() * moves.length)];
+
+            let result = '';
+
+            if (playerMove === computerMove) {
+                result = `It's a draw! Both chose ${playerMove}.`;
+            } else if (
+                (playerMove === 'rock' && computerMove === 'scissors') ||
+                (playerMove === 'paper' && computerMove === 'rock') ||
+                (playerMove === 'scissors' && computerMove === 'paper')
+            ) {
+                result = `You win! ${playerMove} beats ${computerMove}.`;
+                playerScore++;
+            } else {
+                result = `You lose! ${computerMove} beats ${playerMove}.`;
+                computerScore++;
+            }
+
+            document.getElementById('result').textContent = result;
+            document.getElementById('playerScore').textContent = playerScore;
+            document.getElementById('computerScore').textContent = computerScore;
+
+            if (playerScore === 5 || computerScore === 5) {
+                declareWinner();
+            }
+        }
+
+        function declareWinner() {
+            if (playerScore > computerScore) {
+                alert('Congratulations! You are the winner!');
+            } else {
+                alert('Game over! The computer wins.');
+            }
+            resetGame();
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            document.getElementById('playerScore').textContent = playerScore;
+            document.getElementById('computerScore').textContent = computerScore;
+            document.getElementById('result').textContent = '';
+        }
+    </script>
+</body>
+</html>
